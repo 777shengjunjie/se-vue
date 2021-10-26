@@ -51,7 +51,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'safari-pinned-tab.svg'],
       manifest: {
-        name: 'vue-template',
+        name: 'se-vue',
         short_name: 'App',
         theme_color: '#ffffff',
         icons: [
