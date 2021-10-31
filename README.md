@@ -1,54 +1,11 @@
-# my-vue-template
+# Vue 3 + Typescript + Vite
 
-Heavily inspired by [Vitesse](https://github.com/antfu/vitesse)
+This template should help get you started developing with Vue 3 and Typescript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-## Features
+## Recommended IDE Setup
 
-- ⚡️ born with fastness with [Vue 3](https://github.com/vuejs/vue-next), [Vite 2](https://github.com/vitejs/vite), [ESBuild](https://github.com/evanw/esbuild)
+- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
 
-- 🗂 File based routing with [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages)
+## Type Support For `.vue` Imports in TS
 
-- 📑 Layout system with [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts)
-
-- 📦 Components auto importing with [vite-plugin-components](https://github.com/antfu/vite-plugin-components)
-
-- 🎨 Atomic CSS with [Tainwind](https://tailwindcss.com/)
-
-- 😃 Icons supported by [Iconify](https://icones.netlify.app/) as [components](https://github.com/antfu/vite-plugin-icons)
-
-- 🌍 I18n ready with [vue-i18n-next](https://github.com/intlify/vue-i18n-next) and [auto import support](https://github.com/intlify/vite-plugin-vue-i18n)
-
-- 🔥 [new `<script setup>` style](https://github.com/vuejs/rfcs/pull/227)
-
-- 🖨 Server-side generation with [vite-ssg](https://github.com/antfu/vite-ssg)
-
-- 🦾 Seamless type infer with [TypeScript](https://www.typescriptlang.org/)
-
-## Try it now
-
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/taujiong/vue-template/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
-
-```bash
-npx degit taujiong/vue-template my-vue-app
-cd my-vue-app
-yarn
-```
-
-## Checklist
-
-When you use this template, try follow the checklist to update your info properly
-
-- [ ] Rename `name` field in `package.json`
-- [ ] Change the author name in `LICENSE`
-- [ ] Change the title in `index.html`
-- [ ] Change the name in VitePWA manifest of `vite.config.ts`
-- [ ] Change the favicon in `public`
-- [ ] Clean up the READMEs
-
-And, enjoy :)
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's `.vue` type support plugin by running `Volar: Switch TS Plugin on/off` from VSCode command palette.

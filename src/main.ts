@@ -1,11 +1,9 @@
-import { ViteSSG } from 'vite-ssg';
-import App from './App.vue';
-import routes from '~/router/routes';
-import './index.css';
+import { createApp } from 'vue'
+import App from './App.vue'
+import './index.css'
+import vue3videoPlay from "vue3-video-play"; // 引入组件
+import "vue3-video-play/dist/style.css"; // 引入css
 
-export const createApp = ViteSSG(App, { routes }, (ctx) => {
-  // install all modules under `modules/`
-  Object.values(import.meta.globEager('./modules/*.ts')).map((i) =>
-    i.install?.(ctx)
-  );
-});
+createApp(App)
+.use(vue3videoPlay)
+.mount('#app')

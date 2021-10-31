@@ -1,6 +1,0 @@
-export type HttpResult<T> = {
-    code: number;
-    data: T;
-    message: string;
-    success: boolean;
-}
