@@ -12,38 +12,46 @@
           铁路运输车辆安全监控可视化平台
         </h1>   
       </div>
-
     </div>
   </div>
+  
   <div class="videoLeft">
     <vue3VideoPlay 
       v-bind="options"
+      :src = simUrl
     />
   </div>
 
   <div class="videoMiddle">
     <vue3VideoPlay 
       v-bind="options"
+      :src = simUrl
     />
   </div>
 
   <div class="videoRight">
     <vue3VideoPlay 
       v-bind="options"
+      :src = simUrl
     />
   </div>
 
 </div>
 
- 
+
+
 
 </template>
 
 
 <script setup lang="ts">
 
-import {options} from './services/video';
+import {options,getUrl} from './services/video';
+import type {SimUrl} from './model/simVideo';
+import { ref } from '@vue/reactivity';
+const simUrl = ref<SimUrl>('');
 
+getUrl().then( result => simUrl.value = result.data );
 
 </script>
 

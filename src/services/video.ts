@@ -1,5 +1,16 @@
 import { reactive } from "vue";
 import mv from '../assets/mp4/movie.mp4';
+import { http } from "../utils/http";
+
+
+
+
+
+
+export async function getUrl() {
+    const result=await http.post<string>('/se/video/url');
+    return result;
+}
 
 
 export const options = reactive({
@@ -7,7 +18,7 @@ export const options = reactive({
   height: "20vw", //播放器高度
   color: "#409eff", //主题色
   title: "", //视频名称
-  src: "https://cdn.jsdelivr.net/gh/xdlumia/files/video-play/IronMan.mp4", //视频源
+  // src: simUrl.value, //视频源
   muted: false, //静音
   webFullScreen: false,
   speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
