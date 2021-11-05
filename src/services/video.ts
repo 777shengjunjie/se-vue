@@ -1,16 +1,14 @@
 import { reactive } from "vue";
 import mv from '../assets/mp4/movie.mp4';
 import { http } from "../utils/http";
+import { SimVideo } from "../model/simVideo";
 
 
 
 
 
 
-export async function getUrl() {
-    const result=await http.post<string>('/se/video/url');
-    return result;
-}
+
 
 
 export const options = reactive({
