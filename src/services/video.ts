@@ -4,6 +4,7 @@ import { http } from "../utils/http";
 import { SimVideo } from "../model/simVideo";
 
 
+import videobg from '../assets/videobg.jpg';
 
 
 
@@ -18,6 +19,7 @@ export const options = reactive({
   title: "", //视频名称
   // src: simUrl.value, //视频源
   muted: false, //静音
+  poster: videobg,
   webFullScreen: false,
   speedRate: ["0.75", "1.0", "1.25", "1.5", "2.0"], //播放倍速
   autoPlay: false, //自动播放
