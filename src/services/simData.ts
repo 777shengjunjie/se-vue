@@ -1,6 +1,6 @@
 import * as echarts from 'echarts';
 import { http } from '../utils/http';
-import type { Deformation ,SlaveSimDataProject} from '../model/deformation';
+import type { Deformation ,SlaveSimDataProject} from '../model/SlaveSimdata';
 
 
 
@@ -14,7 +14,7 @@ export async function getProject() {
 
 export async function getDeformation(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/deformation/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -107,7 +107,7 @@ function runDeformationEcharts(_rawData:any,myChart:any) {
 
 export async function getAcceleration(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/acceleration/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -199,7 +199,7 @@ function runAccelerationEcharts(_rawData:any,myChart:any) {
 
 export async function getForce(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/force/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -293,7 +293,7 @@ function runForceEcharts(_rawData:any,myChart:any) {
 
 export async function getInternal(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/internal/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -385,7 +385,7 @@ function runInternalEcharts(_rawData:any,myChart:any) {
 
 export async function getKinetic(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/kinetic/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -478,7 +478,7 @@ function runKineticEcharts(_rawData:any,myChart:any) {
 
 export async function getTotal(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/total/'+projectId);
-  if (Object.keys(result.data).length==1){
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return
@@ -571,7 +571,8 @@ function runTotalEcharts(_rawData:any,myChart:any) {
 
 export async function getVelocity(projectId:number,myChart:any) {
   const result =await http.get<any>('/se/slaveSim/velocity/'+projectId);
-  if (Object.keys(result.data).length==1){
+
+  if (Object.keys(result.data).length==1||"当前数据不存在于数据中"==(result.data)){
     myChart.clear();
     alert("数据不存在，请重新上传");
     return

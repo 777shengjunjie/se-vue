@@ -17,12 +17,13 @@
 
       <div>
 
-          <input ref='uploadInput' type= "file" class="hidden" name="icon" @change="Dealfilechange"/>  
+          <input ref='uploadInput' type= "file" class="hidden" name="icon" @change="DealMoviechange"/>  
           <button id="upload" class="btn btn-primary btn-sm"  style=" width: 6vw; height: 3vh;"  @click="Upload">
             <h1 style="font-size: 1vw;">
               上传视频
             </h1>
           </button> 
+          
 
 
           <div class="dropdown dropdown-right">
@@ -57,18 +58,18 @@
       <div class="videoRight">
         <vue3VideoPlay 
           v-bind="options"
-          :src = simUrl
+          src = "http://169.254.125.185"
         />
       </div>
 
       <!-- <div class="unityLeft">
         <vue3VideoPlay 
           v-bind="options"
-          :src = simUrl
+          :src = "http://169.254.125.185/"
         />
       </div>  -->
 
-    
+          
 
       <div class="simDataMiddle">
 
@@ -101,20 +102,47 @@
       </div>
 
       <div class="simDataEchartsMiddle">
-        <div class="dropdown dropdown-right" @click="getAllProject" style="margin-top: 4%; margin-left: 65%;">
-          <div tabindex="0"  class="m-1 btn btn-sm"  style=" width: 6vw; height: 3vh;" > 
-            <h1 style="font-size: 1vw;">
-              工况选择
-            </h1>
-          </div> 
-          <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box " style="height:200px;width: 11rem;overflow:scroll">
-            <li v-for="item in slaveProjectList">
-              <a @click="setDeformationProjectId(item.projectId)">{{item.name}}</a>
-            </li> 
-          </ul>
+
+
+          <div class="form-control " style="width: 6.8vw;height: 6vh;margin-top: 3%;float: left;margin-left: 3%">
+                  <input type="text" placeholder="添加工况" class="input input-bordered input-primary" v-model="slaveSimDataUploadDto.projectName" >
+    
           </div>
 
-         <div id="sim" style="width: 41vw;height:24vw;"/>
+          <select v-model="slaveSimDataUploadDto.dataType" class="select select-primary" style="float: left;margin-top: 3%;height: 4vh;margin-left: 1%;">
+            <option disabled value="0">选择结果数据</option> 
+            <option value="1" >变形响应</option> 
+            <option value="2" >速度响应</option> 
+            <option value="3" >加速度响应</option>
+            <option value="4" >界面力</option>
+            <option value="5" >内能响应</option>
+            <option value="6" >动能响应</option>
+            <option value="7" >总能量响应</option>
+          </select>
+       
+          <input ref='uploadInput' type= "file" class="hidden" name="icon" @change="filechange($event,slaveSimDataUploadDto)" style="float:left">  
+          <button id="upload" class="btn btn-primary btn-sm"  style=" width: 6vw; height: 6vh;float:left;margin-left: 1%;margin-top: 3%;"  @click="Upload">
+            <h1 style="font-size: 1vw;">
+              上传数据
+            </h1>
+          </button> 
+
+
+          <div class="dropdown dropdown-right" @click="getAllProject" style="margin-top: 3%; margin-left: 3%; float: left;">
+       
+            <div tabindex="0"  class="m-1 btn btn-sm"  style=" width: 6vw; height: 6vh;" > 
+              <h1 style="font-size: 1vw;">
+                工况选择
+              </h1>
+            </div> 
+            <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box " style="height:200px;width: 11rem;overflow:scroll">
+              <li v-for="item in slaveProjectList">
+                <a @click="setDeformationProjectId(item.projectId)">{{item.name}}</a>
+              </li> 
+            </ul>
+         </div>
+    
+         <div id="sim" style="width: 41vw;height:24vw;margin-top: 12%;"/>
       </div>
 
       <div class="sensorRight">
@@ -131,7 +159,7 @@
 
 import * as echarts from 'echarts';
 import Vue from 'vue'
-import {defineComponent,onMounted} from "vue"
+import { defineComponent,onMounted} from "vue"
 import { conditionalExpression } from '@babel/types';
 import { getDeformation,getProject,getAcceleration,getForce,getInternal,getKinetic,getTotal,getVelocity} from './services/simData';
 
@@ -139,8 +167,11 @@ import { http } from "./utils/http";
 import {options} from './services/video';
 import type {SimUrl,SimVideo} from './model/simVideo';
 import { ref } from '@vue/reactivity';
-import type { SlaveSimDataProject } from './model/deformation';
+import type { SlaveSimDataProject,SlaveSimDataUploadDto } from './model/SlaveSimdata';
 
+
+
+const slaveSimDataUploadDto = ref<SlaveSimDataUploadDto>({dataType:0} as SlaveSimDataUploadDto);
 
 const simUrl = ref<SimUrl>('');
 const simVideoList = ref<SimVideo[]>([]);
@@ -152,13 +183,14 @@ const playSimVideo=getUrl;
 
 const uploadInput = ref<HTMLElement| null>(null);
 
-const Dealfilechange=dealfilechange;
+const DealMoviechange=dealmoviechange;
+const Filechange=filechange;
 const Upload=upload;
 const uploadResult=ref<string>('');
 
 
 
-const projectId = ref<number>(1);
+const projectId = ref<number>(6);
 
 var sim = ref<any>();
 
@@ -184,7 +216,26 @@ let newPromise = new Promise((resolve) => {
 
 
 
-async function dealfilechange(e:Event){
+
+async function filechange(e:Event,slaveSimDataUploadDto:SlaveSimDataUploadDto){
+    // console.log(""+slaveSimDataUploadDto.projectName+slaveSimDataUploadDto.dataType);
+    const input  = e.target as HTMLInputElement;
+    let files = input.files;
+    if(files){
+        const formData=new window.FormData();
+        formData.append('multipartFile',files[0]);
+        const result = await http.post<string>('/se/masterSim/upload?projectName='+slaveSimDataUploadDto.projectName+"&dataType="+slaveSimDataUploadDto.dataType,formData,{
+          headers:{
+            'Content-Type':'multipart/form-data'
+          }
+        }).then(result=> uploadResult.value=result.data);
+        alert(uploadResult.value);
+    }
+}
+
+
+
+async function dealmoviechange(e:Event){
     const input  = e.target as HTMLInputElement;
     let files = input.files;
     if(files){

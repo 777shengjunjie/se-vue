@@ -11,3 +11,8 @@ export type SlaveSimDataProject = {
     projectId : number;
     name : String;
 }
+
+export type SlaveSimDataUploadDto = {
+    projectName : String;
+    dataType : number;
+}

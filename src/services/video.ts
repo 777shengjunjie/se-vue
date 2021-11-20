@@ -8,10 +8,6 @@ import videobg from '../assets/videobg.jpg';
 
 
 
-
-
-
-
 export const options = reactive({
   width: "31vw", //播放器高度
   height: "20vw", //播放器高度
